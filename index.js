@@ -154,11 +154,11 @@ function listen() {
     let last = packTimeConditionally(appleTimeNow() - 5)
     let bail = false
 
-    const dbPromise = messagesDb.open()
+    
 
-    async function check() {
-        const db = await dbPromise
-        const query = `
+    function check() {
+        const db = messagesDb.open()
+        const query = db.prepare(`
             SELECT
                 guid,
                 id as handle,
@@ -169,12 +169,12 @@ function listen() {
                 cache_roomnames
             FROM message
             LEFT OUTER JOIN handle ON message.handle_id = handle.ROWID
-            WHERE date >= ${last}
-        `
+            WHERE date >= ${last}`);
+        
         last = packTimeConditionally(appleTimeNow())
 
         try {
-            const messages = await db.all(query)
+            const messages = query.all()
             messages.forEach(msg => {
                 if (emittedMsgs[msg.guid]) return
                 emittedMsgs[msg.guid] = true
@@ -204,10 +204,10 @@ function listen() {
     return emitter
 }
 
-async function getRecentChats(limit = 10) {
-    const db = await messagesDb.open()
+function getRecentChats(limit = 10) {
+    const db = messagesDb.open()
 
-    const query = `
+    const query = db.prepare(`
         SELECT
             guid as id,
             chat_identifier as recipientId,
@@ -218,10 +218,9 @@ async function getRecentChats(limit = 10) {
         JOIN chat_handle_join ON chat_handle_join.chat_id = chat.ROWID
         JOIN handle ON handle.ROWID = chat_handle_join.handle_id
         ORDER BY handle.rowid DESC
-        LIMIT ${limit};
-    `
+        LIMIT ${limit}`);
 
-    const chats = await db.all(query)
+    const chats = query.all();
     return chats
 }
 

@@ -1,11 +1,11 @@
 {
     "name": "osa-imessage",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "description": "Bring the power of NodeJS to Apple iMessage",
     "author": {
-        "name": "Will Franzen",
-        "email": "wtfranzen@gmail.com",
-        "url": "http://will.xyz"
+        "name": "Zack Burt, based on the work of Will Franzen",
+        "email": "zack@zackburt.com",
+        "url": "https://codefor.cash"
     },
     "scripts": {
         "fmt": "prettier --write '*.js'"
@@ -13,7 +13,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/wtfaremyinitials/osa-imessage.git"
+        "url": "https://github.com/zackster/osa-imessage"
     },
     "main": "index.js",
     "keywords": [
@@ -31,10 +31,10 @@
         "node": ">=8"
     },
     "dependencies": {
+        "better-sqlite3": "^5.4.3",
         "macos-version": "^4.0.0",
         "one-liner": "^1.0.3",
-        "osa2": "^0.0.0",
-        "sqlite": "^2.8.0"
+        "osa2": "^0.0.0"
     },
     "devDependencies": {
         "prettier": "^1.3.0"
